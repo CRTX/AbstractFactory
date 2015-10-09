@@ -1,0 +1,21 @@
+{
+    "name": "CRTX/AbstractFactory",
+    "description": "Generic Abstract Factory",
+    "license": "N/A",
+    "keywords": ["Factory", "Abstract"],
+    "version": "0.1",
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5"
+    },
+    "autoload": {
+        "psr-4": {
+            "CRTX\\AbstractFactory\\": "src/"
+        }
+    },
+    "config": {
+        "bin-dir": "bin/"
+    }
+}
