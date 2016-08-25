@@ -10,7 +10,6 @@ namespace CRTX\AbstractFactory;
 abstract class AbstractFactory
 {
     protected $namespace;
-    protected $buildArguments;
 
     public function __construct()
     {
@@ -28,11 +27,11 @@ abstract class AbstractFactory
     {
         $this->modifyBuildArguments($arguments);
         $reflection = new \ReflectionClass($this->namespace . $string);
-        return $reflection->newInstanceArgs($this->buildArguments);
+        return $reflection->newInstanceArgs($this->modifyBuildArguments($arguments));
     }
 
     protected function modifyBuildArguments($arguments)
     {
-        $this->buildArguments = $arguments;
+        return $arguments;
     }
 }
