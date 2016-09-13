@@ -26,7 +26,7 @@ abstract class AbstractFactory
 
     public function build($string, array $arguments = array())
     {
-        $this->ReflectedClass = new \ReflectionClass($this->namespace . $string);
+        $this->ReflectedClass = new \ReflectionClass($this->namespace . "\" . $string);
         return $this->ReflectedClass->newInstanceArgs($this->modifyBuildArguments($arguments));
     }
 
