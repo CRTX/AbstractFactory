@@ -3,6 +3,7 @@
 namespace CRTX\AbstractFactory;
 
 use ReflectionClass;
+use ReflectionNamedType;
 
 /**
   * Abstract factory
