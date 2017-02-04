@@ -20,6 +20,11 @@ abstract class AbstractFactory
         return $ReflectedClass->newInstanceArgs($argumentList);
     }
 
+    protected function modifyBuildArguments(array $arguments) : Array
+    {
+        return $arguments;
+    }
+
     protected function getClassReflection($string)
     {
         $fullClassName = $this->getNamespace() . "\\" . $string;
@@ -35,7 +40,7 @@ abstract class AbstractFactory
         return $this->namespace;
     }
 
-    public function buildArgumentList(&$ReflectedClass, Array $argumentList) : Array
+    protected function buildArgumentList(&$ReflectedClass, Array $argumentList) : Array
     {
         $ReflectedMethod = $ReflectedClass->getMethod('__construct');
 
@@ -62,10 +67,5 @@ abstract class AbstractFactory
         }
 
         return $argumentList;
-    }
-
-    protected function modifyBuildArguments(array $arguments) : Array
-    {
-        return $arguments;
     }
 }
