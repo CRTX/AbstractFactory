@@ -14,7 +14,15 @@ abstract class AbstractFactory
     public function build($className, array $arguments = array())
     {
         $ReflectedClass = $this->getClassReflection($className);
-        return $ReflectedClass->newInstanceArgs($this->modifyBuildArguments($arguments));
+        $argumentList = $this->modifyBuildArguments(
+            $this->buildArgumentList($ReflectedClass, $arguments)
+        );
+        return $ReflectedClass->newInstanceArgs($argumentList);
+    }
+
+    protected function modifyBuildArguments(array $arguments) : Array
+    {
+        return $arguments;
     }
 
     protected function getClassReflection($string)
@@ -24,7 +32,7 @@ abstract class AbstractFactory
         return $this->ReflectedClass;
     }
 
-    protected function getNamespace()
+    protected function getNamespace() : String
     {
         $class = get_class($this);
         $ReflectionClass = new ReflectionClass($class);
@@ -32,8 +40,32 @@ abstract class AbstractFactory
         return $this->namespace;
     }
 
-    protected function modifyBuildArguments(array $arguments)
+    protected function buildArgumentList(&$ReflectedClass, Array $argumentList) : Array
     {
-        return $arguments;
+        $ReflectedMethod = $ReflectedClass->getMethod('__construct');
+
+        $reflectedMethodList = $ReflectedMethod->getParameters();
+
+        for ($i = 0; $i < sizeof($reflectedMethodList); $i++) {
+            $parameterType = $reflectedMethodList[$i]->getType();
+            $parameterTypeName = null;
+
+            if ($parameterType instanceof ReflectionNamedType) {
+                $parameterTypeName = $parameterType->getName();
+            }
+
+            $parameterIsOptional = $reflectedMethodList[$i]->isOptional();
+            $argumentEmpty = empty($argumentList[$i]);
+
+            if(
+                $argumentEmpty &&
+                $parameterTypeName === 'array' &&
+                $parameterIsOptional == true
+            ) {
+                $argumentList[$i] = array();
+            }
+        }
+
+        return $argumentList;
     }
 }
