@@ -50,10 +50,12 @@ abstract class AbstractFactory
             $parameterIsOptional = $reflectedMethodList[$i]->isOptional();
             $argumentEmpty = empty($argumentList[$i]);
 
-            if ($argumentEmpty) {
-                if($parameterTypeName === 'array' && $parameterIsOptional == true) {
-                    $argumentList[$i] = array();
-                }
+            if(
+                $argumentEmpty &&
+                $parameterTypeName === 'array' &&
+                $parameterIsOptional == true
+            ) {
+                $argumentList[$i] = array();
             }
         }
 
