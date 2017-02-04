@@ -14,8 +14,10 @@ abstract class AbstractFactory
     public function build($className, array $arguments = array())
     {
         $ReflectedClass = $this->getClassReflection($className);
-        $argumentList = $this->buildArgumentList($ReflectedClass, $arguments);
-        return $ReflectedClass->newInstanceArgs($this->modifyBuildArguments($argumentList));
+        $argumentList = $this->modifyBuildArguments(
+            $this->buildArgumentList($ReflectedClass, $arguments)
+        );
+        return $ReflectedClass->newInstanceArgs($argumentList);
     }
 
     protected function getClassReflection($string)
@@ -25,7 +27,7 @@ abstract class AbstractFactory
         return $this->ReflectedClass;
     }
 
-    protected function getNamespace()
+    protected function getNamespace() : String
     {
         $class = get_class($this);
         $ReflectionClass = new ReflectionClass($class);
@@ -62,7 +64,7 @@ abstract class AbstractFactory
         return $argumentList;
     }
 
-    protected function modifyBuildArguments(array $arguments)
+    protected function modifyBuildArguments(array $arguments) : Array
     {
         return $arguments;
     }
