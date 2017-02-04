@@ -2,6 +2,8 @@
 
 namespace CRTX\AbstractFactory;
 
+use ReflectionClass;
+
 /**
   * Abstract factory
   *
@@ -9,25 +11,25 @@ namespace CRTX\AbstractFactory;
   */
 abstract class AbstractFactory
 {
-    protected $namespace;
-    protected $ReflectedClass;
-
-    public function __construct()
+    public function build($className, array $arguments = array())
     {
-        $this->setNamespace();
+        $ReflectedClass = $this->getClassReflection($className);
+        return $ReflectedClass->newInstanceArgs($this->modifyBuildArguments($arguments));
     }
 
-    protected function setNamespace()
+    protected function getClassReflection($string)
+    {
+        $fullClassName = $this->getNamespace() . "\\" . $string;
+        $this->ReflectedClass = new ReflectionClass($fullClassName);
+        return $this->ReflectedClass;
+    }
+
+    protected function getNamespace()
     {
         $class = get_class($this);
-        $R = new \ReflectionClass($class);
-        $this->namespace = $R->getNamespaceName();
-    }
-
-    public function build($string, array $arguments = array())
-    {
-        $this->ReflectedClass = new \ReflectionClass($this->namespace . "\\" . $string);
-        return $this->ReflectedClass->newInstanceArgs($this->modifyBuildArguments($arguments));
+        $ReflectionClass = new ReflectionClass($class);
+        $this->namespace = $ReflectionClass->getNamespaceName();
+        return $this->namespace;
     }
 
     protected function modifyBuildArguments(array $arguments)
