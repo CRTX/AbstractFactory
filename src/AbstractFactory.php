@@ -14,7 +14,8 @@ abstract class AbstractFactory
     public function build($className, array $arguments = array())
     {
         $ReflectedClass = $this->getClassReflection($className);
-        return $ReflectedClass->newInstanceArgs($this->modifyBuildArguments($arguments));
+        $argumentList = $this->buildArgumentList($arguments);
+        return $ReflectedClass->newInstanceArgs($this->modifyBuildArguments($argumentList));
     }
 
     protected function getClassReflection($string)
@@ -30,6 +31,33 @@ abstract class AbstractFactory
         $ReflectionClass = new ReflectionClass($class);
         $this->namespace = $ReflectionClass->getNamespaceName();
         return $this->namespace;
+    }
+
+    public function buildArgumentList(&$ReflectedClass, Array $argumentList) : Array
+    {
+        $ReflectedMethod = $ReflectedClass->getMethod('__construct');
+
+        $reflectedMethodList = $ReflectedMethod->getParameters();
+
+        for ($i = 0; $i < sizeof($reflectedMethodList); $i++) {
+            $parameterType = $reflectedMethodList[$i]->getType();
+            $parameterTypeName = null;
+
+            if ($parameterType instanceof ReflectionNamedType) {
+                $parameterTypeName = $parameterType->getName();
+            }
+
+            $parameterIsOptional = $reflectedMethodList[$i]->isOptional();
+            $argumentEmpty = empty($argumentList[$i]);
+
+            if ($argumentEmpty) {
+                if($parameterTypeName === 'array' && $parameterIsOptional == true) {
+                    $argumentList[$i] = array();
+                }
+            }
+        }
+
+        return $argumentList;
     }
 
     protected function modifyBuildArguments(array $arguments)
