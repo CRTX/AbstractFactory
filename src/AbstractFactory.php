@@ -14,7 +14,7 @@ abstract class AbstractFactory
     public function build($className, array $arguments = array())
     {
         $ReflectedClass = $this->getClassReflection($className);
-        $argumentList = $this->buildArgumentList($arguments);
+        $argumentList = $this->buildArgumentList($ReflectedClass, $arguments);
         return $ReflectedClass->newInstanceArgs($this->modifyBuildArguments($argumentList));
     }
 
