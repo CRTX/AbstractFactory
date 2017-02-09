@@ -52,6 +52,10 @@ abstract class AbstractFactory
 
     protected function buildArgumentList(&$ReflectedClass, Array $argumentList) : Array
     {
+        if(!$ReflectedClass->hasMethod('__construct')) {
+            return $argumentList;
+        }
+
         $ReflectedMethod = $ReflectedClass->getMethod('__construct');
 
         $reflectedMethodList = $ReflectedMethod->getParameters();

@@ -1,0 +1,19 @@
+sudo: required
+
+services:
+    - docker
+
+before_install:
+    - phpenv config-rm xdebug.ini
+
+install:
+    - docker run --rm -v $(pwd):/app composer/composer install
+    - sudo wget -O /usr/local/bin/crowdr https://raw.githubusercontent.com/polonskiy/crowdr/master/crowdr
+    - sudo chmod +x /usr/local/bin/crowdr
+    - crowdr build
+
+script:
+    - docker run -v $(pwd):/app --rm abstractfactory-php phpunit
+
+after_success:
+    - travis_retry docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -v $(pwd):/app --rm abstractfactory-php coveralls -v
