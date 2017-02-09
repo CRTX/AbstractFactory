@@ -107,9 +107,16 @@ class AbstractFactoryTest extends TestCase
             'DummyTestRequiredConstructorClass',
             array(null, null, null)
         );
-        $this->assertInstanceOf(
-            DummyTestRequiredConstructorClass::class,
-            $DummyTestConstructorClass
+
+        $actual = array(
+            $DummyTestConstructorClass->testString,
+            $DummyTestConstructorClass->testArray,
+            $DummyTestConstructorClass->testDummyClass
+        );
+
+        $this->assertEquals(
+            array(null, null, null),
+            $actual
         );
     }
 
