@@ -86,10 +86,29 @@ class AbstractFactoryTest extends TestCase
         $AbstractClassFactory = new DummyAbstractClassFactory();
         $DummyTestConstructorClass = $AbstractClassFactory->build(
             'DummyTestConstructorClass',
-            array(null)
+            array(null, null, null)
         );
         $this->assertInstanceOf(
             DummyTestConstructorClass::class,
+            $DummyTestConstructorClass
+        );
+    }
+
+    /**
+     * Test build method
+     *
+     * @return void
+     * @author Christian Ruiz <ruiz.d.christian@gmail.com>
+     **/
+    public function testConstructorRequiredNullConstructorBuild() : void
+    {
+        $AbstractClassFactory = new DummyAbstractClassFactory();
+        $DummyTestConstructorClass = $AbstractClassFactory->build(
+            'DummyTestRequiredConstructorClass',
+            array(null, null, null)
+        );
+        $this->assertInstanceOf(
+            DummyTestRequiredConstructorClass::class,
             $DummyTestConstructorClass
         );
     }
