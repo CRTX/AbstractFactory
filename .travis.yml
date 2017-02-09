@@ -7,7 +7,7 @@ before_install:
     - phpenv config-rm xdebug.ini
 
 install:
-    - composer install 
+    - docker run --rm -v $(pwd):/app composer/composer install
     - sudo wget -O /usr/local/bin/crowdr https://raw.githubusercontent.com/polonskiy/crowdr/master/crowdr
     - sudo chmod +x /usr/local/bin/crowdr
     - crowdr build
