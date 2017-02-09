@@ -34,5 +34,9 @@ class DummyTestRequiredConstructorClass
      * @return void
      * @author Christian Ruiz <ruiz.d.christian@gmail.com>
      **/
-    public function __construct(?String $testString, ?Array $testArray, ?DummyTestClass $dummyClass){}
+    public function __construct(
+        ?String $testString,
+        ?Array $testArray,
+        ?DummyTestClass $dummyClass
+    ){}
 }
