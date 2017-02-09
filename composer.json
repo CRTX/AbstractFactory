@@ -1,9 +1,9 @@
 {
     "name": "CRTX/AbstractFactory",
     "description": "Generic Abstract Factory",
-    "license": "N/A",
+    "license": "MIT",
     "keywords": ["Factory", "Abstract"],
-    "version": "0.1",
+    "version": "2.0",
     "require": {
         "php": ">=5.3.3"
     },
