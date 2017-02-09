@@ -29,10 +29,23 @@ class DummyTestRequiredConstructorClass
     public $testArray;
 
     /**
+     * @var null
+     */
+    public $testDummyClass;
+
+    /**
      * Dummy constructor for testing
      *
      * @return void
      * @author Christian Ruiz <ruiz.d.christian@gmail.com>
      **/
-    public function __construct(?String $testString, ?Array $testArray, ?DummyTestClass $dummyClass){}
+    public function __construct(
+        ?String $testString,
+        ?Array $testArray,
+        ?DummyTestClass $testDummyClass
+    ) {
+        $this->testString = $testString;
+        $this->testArray = $testArray;
+        $this->testDummyClass = $testDummyClass;
+    }
 }

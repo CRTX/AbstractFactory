@@ -47,8 +47,13 @@ class AbstractFactoryTest extends TestCase
     public function testConstructorBuild() : void
     {
         $AbstractClassFactory = new DummyAbstractClassFactory();
-        $DummyTestConstructorClass = $AbstractClassFactory->build('DummyTestConstructorClass');
-        $this->assertInstanceOf(DummyTestConstructorClass::class, $DummyTestConstructorClass);
+        $DummyTestConstructorClass = $AbstractClassFactory->build(
+            'DummyTestConstructorClass'
+        );
+        $this->assertInstanceOf(
+            DummyTestConstructorClass::class,
+            $DummyTestConstructorClass
+        );
     }
 
     /**
@@ -60,8 +65,14 @@ class AbstractFactoryTest extends TestCase
     public function testConstructorOptionalConstructorBuild() : void
     {
         $AbstractClassFactory = new DummyAbstractClassFactory();
-        $DummyTestConstructorClass = $AbstractClassFactory->build('DummyTestConstructorClass', array(array()));
-        $this->assertInstanceOf(DummyTestConstructorClass::class, $DummyTestConstructorClass);
+        $DummyTestConstructorClass = $AbstractClassFactory->build(
+            'DummyTestConstructorClass',
+            array(array())
+        );
+        $this->assertInstanceOf(
+            DummyTestConstructorClass::class,
+            $DummyTestConstructorClass
+        );
     }
 
     /**
@@ -73,8 +84,14 @@ class AbstractFactoryTest extends TestCase
     public function testConstructorOptionalNullConstructorBuild() : void
     {
         $AbstractClassFactory = new DummyAbstractClassFactory();
-        $DummyTestConstructorClass = $AbstractClassFactory->build('DummyTestConstructorClass', array(null));
-        $this->assertInstanceOf(DummyTestConstructorClass::class, $DummyTestConstructorClass);
+        $DummyTestConstructorClass = $AbstractClassFactory->build(
+            'DummyTestConstructorClass',
+            array(null, null, null)
+        );
+        $this->assertInstanceOf(
+            DummyTestConstructorClass::class,
+            $DummyTestConstructorClass
+        );
     }
 
     /**
@@ -83,11 +100,39 @@ class AbstractFactoryTest extends TestCase
      * @return void
      * @author Christian Ruiz <ruiz.d.christian@gmail.com>
      **/
-    public function testInvalidArgumentConstructorBuild() : void
+    public function testConstructorRequiredNullConstructorBuild() : void
+    {
+        $AbstractClassFactory = new DummyAbstractClassFactory();
+        $DummyTestConstructorClass = $AbstractClassFactory->build(
+            'DummyTestRequiredConstructorClass',
+            array(null, null, null)
+        );
+
+        $actual = array(
+            $DummyTestConstructorClass->testString,
+            $DummyTestConstructorClass->testArray,
+            $DummyTestConstructorClass->testDummyClass
+        );
+
+        $this->assertEquals(
+            array(null, null, null),
+            $actual
+        );
+    }
+
+    /**
+     * Test build method
+     *
+     * @return void
+     * @author Christian Ruiz <ruiz.d.christian@gmail.com>
+     **/
+    public function testArgumentCountErrorConstructorBuild() : void
     {
         try {
             $AbstractClassFactory = new DummyAbstractClassFactory();
-            $DummyTestConstructorClass = $AbstractClassFactory->build('DummyTestRequiredConstructorClass');
+            $DummyTestConstructorClass = $AbstractClassFactory->build(
+                'DummyTestRequiredConstructorClass'
+            );
         } catch (ArgumentCountError $e) {
             $throwed = true;
         }
