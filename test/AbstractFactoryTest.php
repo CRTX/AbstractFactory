@@ -119,7 +119,7 @@ class AbstractFactoryTest extends TestCase
      * @return void
      * @author Christian Ruiz <ruiz.d.christian@gmail.com>
      **/
-    public function testInvalidArgumentConstructorBuild() : void
+    public function testArgumentCountErrorConstructorBuild() : void
     {
         try {
             $AbstractClassFactory = new DummyAbstractClassFactory();
