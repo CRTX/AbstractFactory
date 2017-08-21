@@ -30,7 +30,7 @@ abstract class AbstractFactory
         return $ReflectedClass->newInstanceArgs($argumentList);
     }
 
-    protected function modifyBuildArguments(array $arguments) : Array
+    protected function modifyBuildArguments(array $arguments)
     {
         return $arguments;
     }
@@ -42,7 +42,7 @@ abstract class AbstractFactory
         return $this->ReflectedClass;
     }
 
-    protected function getNamespace() : String
+    protected function getNamespace()
     {
         $class = get_class($this);
         $ReflectionClass = new ReflectionClass($class);
@@ -50,7 +50,7 @@ abstract class AbstractFactory
         return $this->namespace;
     }
 
-    protected function buildArgumentList(&$ReflectedClass, Array $argumentList) : Array
+    protected function buildArgumentList(&$ReflectedClass, Array $argumentList)
     {
         if(!$ReflectedClass->hasMethod('__construct')) {
             return $argumentList;
