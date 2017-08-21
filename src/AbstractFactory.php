@@ -30,7 +30,7 @@ abstract class AbstractFactory
         return $ReflectedClass->newInstanceArgs($argumentList);
     }
 
-    protected function modifyBuildArguments(array &$arguments)
+    protected function modifyBuildArguments(array $arguments)
     {
         return $arguments;
     }
