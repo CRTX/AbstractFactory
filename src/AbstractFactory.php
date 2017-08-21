@@ -30,7 +30,7 @@ abstract class AbstractFactory
         return $ReflectedClass->newInstanceArgs($argumentList);
     }
 
-    protected function modifyBuildArguments(array $arguments)
+    protected function modifyBuildArguments(array &$arguments)
     {
         return $arguments;
     }
@@ -52,34 +52,6 @@ abstract class AbstractFactory
 
     protected function buildArgumentList(&$ReflectedClass, Array $argumentList)
     {
-        if(!$ReflectedClass->hasMethod('__construct')) {
-            return $argumentList;
-        }
-
-        $ReflectedMethod = $ReflectedClass->getMethod('__construct');
-
-        $reflectedMethodList = $ReflectedMethod->getParameters();
-
-        for ($i = 0; $i < sizeof($reflectedMethodList); $i++) {
-            $parameterType = $reflectedMethodList[$i]->getType();
-            $parameterTypeName = null;
-
-            if ($parameterType instanceof ReflectionNamedType) {
-                $parameterTypeName = $parameterType->getName();
-            }
-
-            $parameterIsOptional = $reflectedMethodList[$i]->isOptional();
-            $argumentEmpty = empty($argumentList[$i]);
-
-            if(
-                $argumentEmpty &&
-                $parameterTypeName === 'array' &&
-                $parameterIsOptional == true
-            ) {
-                $argumentList[$i] = array();
-            }
-        }
-
         return $argumentList;
     }
 }
